@@ -3,7 +3,7 @@ services:
     name: tailtribe
     runtime: node
     plan: free
-    buildCommand: npm ci && npm run build --workspace @tailtribe/web
+    buildCommand: npm ci --include=dev && npm run build --workspace @tailtribe/web
     startCommand: npm run start --workspace @tailtribe/api
     healthCheckPath: /api/health
     envVars:
