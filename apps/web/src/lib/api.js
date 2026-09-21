@@ -1,4 +1,4 @@
-const BASE = '/api';
+const BASE = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '');
 let accessToken = null;
 
 export const setTokens = (t) => {

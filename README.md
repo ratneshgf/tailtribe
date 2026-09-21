@@ -115,3 +115,18 @@ Create a Web application OAuth client in Google Cloud Console and add `http://lo
 Authorized JavaScript origins. Put its client ID in both `apps/api/.env` as `GOOGLE_CLIENT_ID` and
 `apps/web/.env` as `VITE_GOOGLE_CLIENT_ID`, then restart the API and Vite servers. The API verifies the
 Google ID token before creating or signing in the account; it never trusts the email sent by the browser.
+
+## Deploy to Render
+
+The root `render.yaml` deploys the Vite site and Express/Socket.IO API together on one Render web service.
+In the Render dashboard, create a Blueprint from this GitHub repository and provide these environment values
+when prompted: `MONGODB_URI` for the Atlas `tailtribe` database, `ADMIN_SETUP_KEY`, both Google client ID
+fields, and the three Cloudinary values. Render generates the JWT secrets. Add the deployed `https://...onrender.com`
+origin to the Google OAuth client's Authorized JavaScript origins, then redeploy. Add the Render service's
+outbound IP access required by Atlas, or use the Atlas IP access configuration appropriate for the selected plan.
+The free Render web service can sleep when idle, so its first request after inactivity may take longer.
+For the Atlas network allowlist, use the outbound IP ranges shown for the deployed Render service and its region.
+
+Forgot-password email needs SMTP settings (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_FROM`);
+these are optional for deployment and can be added to Render later. Render's free web services block outbound
+SMTP ports 25, 465, and 587, so SMTP-based password reset will need a paid Render plan or an HTTPS email API.

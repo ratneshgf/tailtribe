@@ -15,7 +15,8 @@ export default function Messages() {
 
   useEffect(() => {
     api.get('/conversations').then(setConvs);
-    socket.current = io('http://localhost:4001', { auth: { token: getToken() } });
+    const socketOrigin = import.meta.env.VITE_SOCKET_URL || (import.meta.env.DEV ? 'http://localhost:4001' : window.location.origin);
+    socket.current = io(socketOrigin, { auth: { token: getToken() } });
     socket.current.on('message', (m) => setMessages((prev) => (prev.some((x) => x._id === m._id) ? prev : [...prev, m])));
     return () => socket.current?.disconnect();
   }, []);
