@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TailTribe — Verified Pet Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--ink:#14110f;--mut:#6f675f;--line:#e7e0d7;--paper:#fbf7f1;--card:#fff;
+--coral:#ff4d3d;--amber:#ffb703;--teal:#009e8e;--violet:#5b3df5;--sky:#1e88ff;
+--r:14px;box-sizing:border-box;
+padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.dsp{font-family:"Bricolage Grotesque",Inter,sans-serif;font-weight:800;letter-spacing:-.02em;margin:0}
+a{color:inherit}button{font:inherit;cursor:pointer}
+.wrap{max-width:1140px;margin:0 auto;padding:0 18px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:#fbf7f1ee;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topin{display:flex;align-items:center;gap:14px;height:62px}
+.logo{display:flex;align-items:center;gap:9px;font-family:"Bricolage Grotesque";font-weight:800;font-size:19px}
+.mark{width:30px;height:30px;border-radius:9px;background:var(--coral);display:grid;place-items:center;color:#fff}
+nav.tabs{display:flex;gap:2px;margin-left:auto;overflow:auto}
+nav.tabs button{background:none;border:0;padding:8px 12px;border-radius:999px;color:var(--mut);font-weight:500;white-space:nowrap}
+nav.tabs button.on{background:var(--ink);color:#fff}
+.who{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 6px 5px 12px;font-size:13px;font-weight:500}
+.who select{border:0;background:var(--paper);border-radius:999px;padding:5px 8px;font:inherit}
+.hero{padding:44px 0 26px;display:grid;gap:22px;grid-template-columns:1.15fr .85fr;align-items:center}
+.hero h1{font-size:clamp(34px,5.4vw,56px);line-height:1.02}
+.hero h1 em{font-style:normal;color:var(--coral)}
+.hero p{color:var(--mut);max-width:44ch;margin:14px 0 0}
+.trust{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chipline{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:500}
+.blob{aspect-ratio:1.15;border-radius:26px;background:
+radial-gradient(circle at 78% 22%,var(--amber) 0 22%,transparent 22.5%),
+radial-gradient(circle at 24% 74%,var(--teal) 0 17%,transparent 17.5%),
+linear-gradient(140deg,#ffd9d4,#ffe9b8 55%,#c9f2ec);position:relative;overflow:hidden;border:1px solid var(--line)}
+.blob svg{position:absolute;inset:0;margin:auto;width:52%;height:52%;color:#14110f;opacity:.9}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px;margin:8px 0 22px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 11px;outline:0}
+input:focus,select:focus,textarea:focus{border-color:var(--ink);box-shadow:0 0 0 3px #14110f18}
+.search{flex:1;min-width:180px;display:flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:0 11px}
+.search input{border:0;background:none;flex:1;padding:10px 0}
+.search input:focus{box-shadow:none}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(258px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;text-align:left;padding:0;transition:.16s}
+button.card:hover{transform:translateY(-3px);box-shadow:0 10px 26px #14110f14}
+.ph{height:132px;display:grid;place-items:center;position:relative}
+.ph svg{width:52px;height:52px;color:#14110f;opacity:.82}
+.cb{padding:13px 14px 15px;display:flex;flex-direction:column;gap:7px;flex:1}
+.cb h3{font-size:17px}
+.meta{color:var(--mut);font-size:13px}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.price{font-weight:700}.free{color:var(--teal)}
+.tag{font-size:11.5px;font-weight:600;letter-spacing:.02em;padding:3px 9px;border-radius:999px;border:1px solid var(--line);background:var(--paper);display:inline-flex;gap:5px;align-items:center}
+.t-ok{background:#e2f7f3;border-color:#a8e6dc;color:#046d61}
+.t-warn{background:#fff3d4;border-color:#ffe2a0;color:#8a5b00}
+.t-bad{background:#ffe6e3;border-color:#ffc4bd;color:#b3251a}
+.t-info{background:#e7efff;border-color:#c2d7ff;color:#12509e}
+.btn{border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:10px;padding:9px 15px;font-weight:600;display:inline-flex;align-items:center;gap:7px}
+.btn.alt{background:#fff;color:var(--ink)}
+.btn.coral{background:var(--coral);border-color:var(--coral)}
+.btn.sm{padding:6px 11px;font-size:13px;border-radius:9px}
+.btn:disabled{opacity:.38;cursor:not-allowed}
+.panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:16px}
+.panel>h2{font-size:18px;margin-bottom:4px}
+.sub{color:var(--mut);font-size:13.5px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;color:var(--mut);font-weight:500;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;padding:0 10px 8px}
+td{padding:11px 10px;border-top:1px solid var(--line);vertical-align:middle}
+.stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:16px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.stat b{font-family:"Bricolage Grotesque";font-size:30px;display:block;line-height:1.1}
+.stat span{color:var(--mut);font-size:13px}
+.stat.acc{background:var(--ink);color:#fff;border-color:var(--ink)}.stat.acc span{color:#bdb5ac}
+dialog{border:0;padding:0;border-radius:18px;max-width:760px;width:calc(100% - 28px);background:var(--card);color:var(--ink)}
+dialog::backdrop{background:#14110fa8}
+.dlg{padding:20px}
+.dlghd{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.x{margin-left:auto;background:var(--paper);border:1px solid var(--line);border-radius:9px;width:32px;height:32px;display:grid;place-items:center}
+.two{display:grid;gap:18px;grid-template-columns:1fr 1fr}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line);font-size:14px}
+.kv span{color:var(--mut)}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:11px}
+.field label{font-size:12.5px;font-weight:600;color:var(--mut)}
+.field input,.field select,.field textarea{width:100%}
+.thread{max-height:320px;overflow:auto;display:flex;flex-direction:column;gap:9px;padding:4px 2px}
+.msg{max-width:78%;padding:9px 13px;border-radius:14px;background:var(--paper);border:1px solid var(--line);font-size:14px}
+.msg.me{align-self:flex-end;background:var(--ink);color:#fff;border-color:var(--ink)}
+.note{background:#fff8e6;border:1px solid #ffe2a0;border-radius:11px;padding:10px 13px;font-size:13px;color:#7a5200;display:flex;gap:9px}
+.empty{text-align:center;padding:38px 16px;color:var(--mut)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,120%);background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-size:14px;z-index:99;transition:.25s;box-shadow:0 8px 30px #0003}
+.toast.on{transform:translate(-50%,0)}
+.fl{display:flex;gap:9px;flex-wrap:wrap}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:22px 0 34px;color:var(--mut);font-size:13px}
+@media(max-width:820px){.hero,.two{grid-template-columns:1fr}.blob{display:none}}
+</style></head><body>
+<header class="top"><div class="wrap topin">
+<div class="logo"><span class="mark" id="mk"></span>TailTribe</div>
+<nav class="tabs" id="tabs"></nav>
+<div class="who"><span id="whoName"></span><select id="acct"></select></div>
+</div></header>
+<main class="wrap" id="app"></main>
+<footer class="wrap">TailTribe MVP prototype — verification badges reflect identity checks only, never a guarantee of an animal's health or of transaction outcome. Exact addresses and KYC documents are never public.</footer>
+<dialog id="dlg"><div class="dlg" id="dlgc"></div></dialog>
+<div class="toast" id="toast"></div>
+<script>
+const I={paw:'M6.5 12.5a2.6 2.6 0 0 1 2.2-1.2h6.6a2.6 2.6 0 0 1 2.2 1.2c1.4 2.1.6 5.1-1.7 5.9-1.2.4-2.2-.2-3.8-.2s-2.6.6-3.8.2c-2.3-.8-3.1-3.8-1.7-5.9Z M7 5.6c.9-.5 2.1 0 2.6 1.2.5 1.2.2 2.5-.7 3-.9.5-2.1-.1-2.6-1.3-.5-1.2-.2-2.4.7-2.9Z M17 5.6c-.9-.5-2.1 0-2.6 1.2-.5 1.2-.2 2.5.7 3 .9.5 2.1-.1 2.6-1.3.5-1.2.2-2.4-.7-2.9Z M3.4 10.6c.8-.4 1.8.1 2.2 1.1 M20.6 10.6c-.8-.4-1.8.1-2.2 1.1',
+shield:'M12 3 5 6v5.6c0 4 2.9 7.6 7 8.9 4.1-1.3 7-4.9 7-8.9V6l-7-3Z M9.2 12.1l2 2 3.6-3.8',
+search:'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14Z M20 20l-4-4',
+chat:'M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-5 4v-4H6.5A2.5 2.5 0 0 1 4 13.5Z',
+plus:'M12 5v14 M5 12h14',check:'M5 12.8 9.6 17.4 19 8',x:'M6 6l12 12 M18 6 6 18',
+flag:'M6 21V4 M6 5h11l-2.2 3.6L17 12H6',clock:'M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z M12 7.6V12l3 1.8',
+tag:'M4 4h7l9 9-7 7-9-9Z M8 8h.01',pin:'M12 21s6.5-5.7 6.5-10.3A6.5 6.5 0 0 0 5.5 10.7C5.5 15.3 12 21 12 21Z M12 12.4a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z',
+grid:'M4 4h7v7H4Z M13 4h7v7h-7Z M4 13h7v7H4Z M13 13h7v7h-7Z',
+list:'M4 6h16 M4 12h16 M4 18h10',user:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z M4.5 20a7.5 7.5 0 0 1 15 0',
+bolt:'M13 3 5 13h6l-1 8 8-10h-6l1-8Z',doc:'M6 3h8l4 4v14H6Z M14 3v4h4 M9 12h6 M9 16h6',
+syringe:'M4 20l3.5-3.5 M8 16l-2 2 4 4 2-2Z M10.5 13.5 17 7l-3-3-6.5 6.5Z M15 2.5 21.5 9',
+heart:'M12 20s-7-4.3-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.7-7 9-7 9Z'};
+const ic=(n,s=18,st=2)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="${st}" stroke-linecap="round" stroke-linejoin="round">${I[n].split(' M').map((d,i)=>`<path d="${i?'M'+d:d}"/>`).join('')}</svg>`;
+const HUE={Dog:'linear-gradient(135deg,#ffd9d4,#ffb9b0)',Cat:'linear-gradient(135deg,#ffeec2,#ffd479)',Rabbit:'linear-gradient(135deg,#d6f5ee,#a9e8dc)',Bird:'linear-gradient(135deg,#dde6ff,#bcd0ff)'};
+const uid=p=>p+Math.random().toString(36).slice(2,8);
+const S={users:[
+ {id:'u1',name:'Aarav Mehta',role:'seller',status:'Active',kyc:'Approved'},
+ {id:'u2',name:'Ishita Rao',role:'buyer',status:'Active',kyc:'Approved'},
+ {id:'u3',name:'Admin',role:'admin',status:'Active',kyc:'Approved'},
+ {id:'u4',name:'Karan Shah',role:'seller',status:'Pending Verification',kyc:'Submitted'}],
+me:'u2',pets:[],reqs:[],res:[],msgs:[],reports:[],favs:[],logs:[]};
+const seed=[
+ ['Mocha','Dog','Indie / Mixed',2,'Female','Gwalior, MP 474002',0,'Published','Full',1],
+ ['Pepper','Cat','Domestic Shorthair',1,'Male','Bhopal, MP 462003',6500,'Published','Full',1],
+ ['Snow','Rabbit','Mini Lop',1,'Female','Indore, MP 452001',2200,'Published','Partial',1],
+ ['Rio','Bird','Budgerigar',1,'Male','Gwalior, MP 474011',1500,'Reserved','Full',1],
+ ['Bruno','Dog','Labrador Retriever',3,'Male','Jhansi, UP 284001',0,'Published','Full',1],
+ ['Misty','Cat','Persian',2,'Female','Bhopal, MP 462016',9000,'Pending Review','Partial',4]];
+seed.forEach((s,i)=>S.pets.push({id:'p'+(i+1),name:s[0],species:s[1],breed:s[2],age:s[3],gender:s[4],loc:s[5],price:s[6],status:s[7],vax:s[8],owner:'u'+s[9],
+ health:s[8]==='Full'?'Dewormed, sterilised, no known conditions.':'Dewormed. Owner-reported; not independently verified.',about:`${s[0]} is a ${s[3]}-year-old ${s[2].toLowerCase()} looking for a responsible home.`}));
+S.msgs.push({id:'m1',pet:'p2',a:'u2',b:'u1',from:'u1',body:'Hi! Pepper is litter-trained and great with children. Happy to answer anything.',t:Date.now()-86e5});
+const U=id=>S.users.find(u=>u.id===id),me=()=>U(S.me);
+const log=(a,e,d)=>S.logs.unshift({id:uid('l'),actor:me().name,action:a,entity:e,detail:d||'',t:Date.now()});
+const save=()=>localStorage.setItem('tailtribe',JSON.stringify(S));
+try{const r=localStorage.getItem('tailtribe');if(r)Object.assign(S,JSON.parse(r));}catch(e){}
+let toastT;const toast=t=>{const e=document.getElementById('toast');e.textContent=t;e.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('on'),2400)};
+const dlg=document.getElementById('dlg'),dc=document.getElementById('dlgc');
+const close=()=>dlg.close();
+const open=h=>{dc.innerHTML=h;dlg.showModal()};
+const fmt=p=>p?'₹'+p.toLocaleString('en-IN'):'Free adoption';
+const badge=u=>u.kyc==='Approved'?`<span class="tag t-ok">${ic('shield',13)}ID verified</span>`:`<span class="tag t-warn">${ic('clock',13)}Unverified</span>`;
+const stag=s=>({Published:'t-ok',Reserved:'t-info','Pending Review':'t-warn',Rejected:'t-bad','Sold/Adopted':'t-info',Paused:'',Draft:'',Archived:''})[s]||'';
+let TAB='browse',F={q:'',sp:'',price:'',vax:'',sort:'new'};
+
+function tabsFor(){const r=me().role;
+ return r==='admin'?[['admin','Moderation'],['logs','Audit log']]
+ :r==='seller'?[['browse','Browse'],['listings','My listings'],['inbox','Requests'],['chat','Messages']]
+ :[['browse','Browse'],['reqs','My requests'],['chat','Messages'],['favs','Saved']];}
+
+function render(){
+ document.getElementById('mk').innerHTML=ic('paw',18,2.1);
+ const acct=document.getElementById('acct');
+ acct.innerHTML=S.users.map(u=>`<option value="${u.id}" ${u.id===S.me?'selected':''}>${u.role}</option>`).join('');
+ document.getElementById('whoName').textContent=me().name;
+ const t=tabsFor();if(!t.some(x=>x[0]===TAB))TAB=t[0][0];
+ document.getElementById('tabs').innerHTML=t.map(x=>`<button class="${x[0]===TAB?'on':''}" data-t="${x[0]}">${x[1]}</button>`).join('');
+ document.getElementById('app').innerHTML=({browse:Browse,listings:Listings,inbox:Inbox,reqs:Reqs,chat:Chat,favs:Favs,admin:Admin,logs:Logs})[TAB]();
+ save();}
+
+const visible=()=>S.pets.filter(p=>['Published','Reserved'].includes(p.status));
+function Browse(){
+ let l=visible().filter(p=>(!F.q||(p.name+p.breed+p.loc+p.species).toLowerCase().includes(F.q.toLowerCase()))
+  &&(!F.sp||p.species===F.sp)&&(!F.price||(F.price==='free'?!p.price:p.price>0))&&(!F.vax||p.vax===F.vax));
+ l=[...l].sort((a,b)=>F.sort==='price'?a.price-b.price:F.sort==='age'?a.age-b.age:0);
+ const hero=`<section class="hero"><div>
+ <h1>Adopt with <em>evidence</em>,<br>not guesswork.</h1>
+ <p>Every rehomer is identity-checked, every listing is moderated before it goes public, and contact details stay private until both sides agree.</p>
+ <div class="trust">${[['shield','KYC-verified rehomers'],['doc','Moderated listings'],['chat','Private in-app chat'],['clock','Reservation holds']].map(c=>`<span class="chipline">${ic(c[0],15)}${c[1]}</span>`).join('')}</div></div>
+ <div class="blob">${ic('paw',0,1.4)}</div></section>`;
+ const bar=`<div class="bar">
+ <div class="search">${ic('search',17)}<input id="q" placeholder="Breed, name or city" value="${F.q}"></div>
+ <select id="sp"><option value="">Any species</option>${['Dog','Cat','Rabbit','Bird'].map(s=>`<option ${F.sp===s?'selected':''}>${s}</option>`).join('')}</select>
+ <select id="price"><option value="">Price & adoption</option><option value="free" ${F.price==='free'?'selected':''}>Free adoption</option><option value="paid" ${F.price==='paid'?'selected':''}>For sale</option></select>
+ <select id="vax"><option value="">Any vaccination</option><option ${F.vax==='Full'?'selected':''}>Full</option><option ${F.vax==='Partial'?'selected':''}>Partial</option></select>
+ <select id="sort"><option value="new">Newest</option><option value="price" ${F.sort==='price'?'selected':''}>Price</option><option value="age" ${F.sort==='age'?'selected':''}>Age</option></select></div>`;
+ return hero+bar+(l.length?`<div class="grid">${l.map(Card).join('')}</div>`:`<div class="empty">${ic('search',26)}<p>No listings match these filters yet.</p></div>`);}
+
+function Card(p){const o=U(p.owner);return `<button class="card" data-pet="${p.id}">
+ <div class="ph" style="background:${HUE[p.species]}">${ic('paw',0,1.6)}
+ ${p.status==='Reserved'?'<span class="tag t-info" style="position:absolute;top:10px;left:10px">On hold</span>':''}</div>
+ <div class="cb"><div class="row" style="justify-content:space-between"><h3>${p.name}</h3><span class="price ${p.price?'':'free'}">${fmt(p.price)}</span></div>
+ <div class="meta">${p.breed} · ${p.age}y · ${p.gender}</div>
+ <div class="meta row">${ic('pin',14)}${p.loc}</div>
+ <div class="row" style="margin-top:auto">${badge(o)}<span class="tag">${ic('syringe',13)}${p.vax} vax</span></div></div></button>`;}
+
+function Detail(p){const o=U(p.owner),m=me(),own=p.owner===m.id,
+ res=S.res.find(r=>r.pet===p.id&&r.status==='Approved'),
+ mine=S.reqs.find(r=>r.pet===p.id&&r.buyer===m.id&&!['Declined','Cancelled'].includes(r.status)),
+ can=m.role==='buyer'&&m.status==='Active'&&!own&&p.status==='Published';
+ return `<div class="dlghd"><div><h2 style="font-size:24px">${p.name}</h2>
+ <div class="sub">${p.breed} · ${p.age} years · ${p.gender}</div></div>
+ <button class="x" data-close>${ic('x',16)}</button></div>
+ <div class="ph" style="height:150px;border-radius:12px;background:${HUE[p.species]}">${ic('paw',0,1.6)}</div>
+ <div class="two" style="margin-top:16px"><div>
+ <div class="row" style="margin-bottom:8px"><span class="price ${p.price?'':'free'}" style="font-size:22px">${fmt(p.price)}</span><span class="tag ${stag(p.status)}">${p.status}</span></div>
+ <p class="sub">${p.about}</p>
+ <div class="kv"><span>Vaccination</span><b>${p.vax}</b></div>
+ <div class="kv"><span>Health (owner-provided)</span><b style="max-width:58%;text-align:right;font-weight:500">${p.health}</b></div>
+ <div class="kv"><span>Approximate location</span><b>${p.loc}</b></div>
+ <div class="kv"><span>Listed by</span><b>${o.name}</b></div>
+ <div style="margin-top:10px">${badge(o)}</div></div>
+ <div><div class="note">${ic('shield',16)}<span>Verification confirms identity only — it is not a guarantee of health or outcome. Keep conversation in-app until you are ready to meet.</span></div>
+ ${res?`<div class="note" style="margin-top:10px">${ic('clock',16)}<span>Held until ${new Date(res.exp).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}.</span></div>`:''}
+ <div class="fl" style="margin-top:14px">
+ ${own?`<span class="sub">You own this listing.</span>`:''}
+ ${can&&!mine?`<button class="btn coral" data-req="${p.id}">${ic('paw',16)}Request ${p.price?'purchase':'adoption'}</button>`:''}
+ ${mine?`<span class="tag t-info">Request ${mine.status}</span>`:''}
+ ${can&&mine&&mine.status==='Accepted'&&!res?`<button class="btn" data-hold="${p.id}">${ic('clock',16)}Request 48h hold</button>`:''}
+ ${!own&&m.role!=='admin'?`<button class="btn alt" data-msg="${p.id}">${ic('chat',16)}Message</button>`:''}
+ ${!own?`<button class="btn alt" data-fav="${p.id}">${ic('heart',16)}${S.favs.includes(p.id)?'Saved':'Save'}</button>
+ <button class="btn alt" data-report="${p.id}">${ic('flag',16)}Report</button>`:''}</div>
+ ${m.role==='buyer'&&m.status!=='Active'?`<p class="sub" style="margin-top:10px">Your account is ${m.status} — complete verification to send requests.</p>`:''}
+ </div></div>`;}
+
+function Listings(){const l=S.pets.filter(p=>p.owner===S.me);
+ return `<div class="panel"><div class="row" style="justify-content:space-between"><div><h2>My listings</h2><p class="sub">Listings enter moderation before they become public.</p></div>
+ <button class="btn coral" id="new">${ic('plus',16)}New listing</button></div></div>
+ ${l.length?`<div class="grid">${l.map(p=>`<div class="card"><div class="ph" style="height:96px;background:${HUE[p.species]}">${ic('paw',0,1.6)}</div>
+ <div class="cb"><div class="row" style="justify-content:space-between"><h3>${p.name}</h3><span class="tag ${stag(p.status)}">${p.status}</span></div>
+ <div class="meta">${p.breed} · ${fmt(p.price)}</div>${p.reason?`<div class="tag t-bad">${p.reason}</div>`:''}
+ <div class="fl" style="margin-top:6px">${['Draft','Rejected'].includes(p.status)?`<button class="btn sm" data-submit="${p.id}">Submit for review</button>`:''}
+ ${p.status==='Published'?`<button class="btn sm alt" data-pause="${p.id}">Pause</button>`:''}
+ ${p.status==='Paused'?`<button class="btn sm" data-resume="${p.id}">Publish</button>`:''}
+ ${['Published','Reserved'].includes(p.status)?`<button class="btn sm alt" data-sold="${p.id}">Mark rehomed</button>`:''}</div></div></div>`).join('')}</div>`
+ :`<div class="empty">${ic('paw',26)}<p>No listings yet.</p></div>`}`;}
+
+function Inbox(){const rs=S.reqs.filter(r=>r.seller===S.me);
+ return `<div class="panel"><h2>Incoming requests</h2><p class="sub">Accepting does not transfer the animal — arrange a meeting through in-app chat.</p></div>`+
+ (rs.length?`<div class="panel"><table><tr><th>Pet</th><th>From</th><th>Message</th><th>Status</th><th></th></tr>
+ ${rs.map(r=>{const p=S.pets.find(x=>x.id===r.pet);return `<tr><td><b>${p.name}</b></td><td>${U(r.buyer).name}</td><td class="sub">${r.msg||'—'}</td>
+ <td><span class="tag ${r.status==='Accepted'?'t-ok':r.status==='Declined'?'t-bad':'t-warn'}">${r.status}</span></td>
+ <td class="fl">${['Submitted','Under Review'].includes(r.status)?`<button class="btn sm" data-acc="${r.id}">${ic('check',14)}Accept</button><button class="btn sm alt" data-dec="${r.id}">${ic('x',14)}Decline</button>`:''}</td></tr>`}).join('')}</table></div>`
+ :`<div class="empty">${ic('list',26)}<p>No requests yet.</p></div>`);}
+
+function Reqs(){const rs=S.reqs.filter(r=>r.buyer===S.me),hs=S.res.filter(r=>r.buyer===S.me);
+ return `<div class="panel"><h2>My requests</h2><p class="sub">Sellers respond in-app. You'll never be asked for payment here.</p></div>`+
+ (rs.length?`<div class="panel"><table><tr><th>Pet</th><th>Sent</th><th>Status</th></tr>${rs.map(r=>`<tr><td><b>${S.pets.find(p=>p.id===r.pet).name}</b></td>
+ <td class="sub">${new Date(r.t).toLocaleDateString('en-IN')}</td><td><span class="tag ${r.status==='Accepted'?'t-ok':r.status==='Declined'?'t-bad':'t-warn'}">${r.status}</span></td></tr>`).join('')}</table></div>`:`<div class="empty">${ic('list',26)}<p>No requests sent yet.</p></div>`)
+ +(hs.length?`<div class="panel"><h2 style="font-size:16px">Reservations</h2><table><tr><th>Pet</th><th>Expires</th><th>Status</th></tr>
+ ${hs.map(r=>`<tr><td>${S.pets.find(p=>p.id===r.pet).name}</td><td class="sub">${new Date(r.exp).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}</td><td><span class="tag t-info">${r.status}</span></td></tr>`).join('')}</table></div>`:'');}
+
+function Favs(){const l=S.pets.filter(p=>S.favs.includes(p.id));
+ return `<div class="panel"><h2>Saved pets</h2><p class="sub">Saved listings persist across sessions.</p></div>`+(l.length?`<div class="grid">${l.map(Card).join('')}</div>`:`<div class="empty">${ic('heart',26)}<p>Nothing saved yet.</p></div>`);}
+
+function threads(){const m=S.me,out={};S.msgs.filter(x=>x.a===m||x.b===m).forEach(x=>{out[x.pet]=x});return Object.values(out);}
+function Chat(){const t=threads();
+ return `<div class="panel"><h2>Messages</h2><p class="sub">Phone numbers and email addresses are masked until a request is accepted.</p></div>`+
+ (t.length?`<div class="panel">${t.map(x=>{const p=S.pets.find(y=>y.id===x.pet),o=U(x.a===S.me?x.b:x.a);
+ return `<button class="card" style="border:0;border-top:1px solid var(--line);border-radius:0;width:100%" data-thread="${x.pet}"><div class="cb" style="padding:12px 2px"><div class="row" style="justify-content:space-between"><b>${o.name}</b><span class="sub">${p.name}</span></div><div class="sub">${x.body.slice(0,70)}</div></div></button>`}).join('')}</div>`
+ :`<div class="empty">${ic('chat',26)}<p>No conversations yet.</p></div>`);}
+
+function Thread(pid){const p=S.pets.find(x=>x.id===pid),ms=S.msgs.filter(x=>x.pet===pid&&(x.a===S.me||x.b===S.me));
+ return `<div class="dlghd"><div><h2 style="font-size:20px">${p.name}</h2><div class="sub">${p.breed} · ${fmt(p.price)}</div></div><button class="x" data-close>${ic('x',16)}</button></div>
+ <div class="thread">${ms.map(x=>`<div class="msg ${x.from===S.me?'me':''}">${x.body}</div>`).join('')}</div>
+ <div class="row" style="margin-top:12px"><input id="mi" placeholder="Write a message…" style="flex:1"><button class="btn" data-send="${pid}">${ic('chat',16)}Send</button></div>
+ <div class="note" style="margin-top:10px">${ic('shield',16)}<span>Never send deposits before meeting the animal in person.</span></div>`;}
+
+function Admin(){const pend=S.pets.filter(p=>p.status==='Pending Review'),kyc=S.users.filter(u=>u.kyc==='Submitted'),op=S.reports.filter(r=>r.status==='Open');
+ const st=[['Active users',S.users.filter(u=>u.status==='Active').length,1],['Pending KYC',kyc.length],['Pending listings',pend.length],['Active listings',S.pets.filter(p=>p.status==='Published').length],['Open reports',op.length],['Reservations',S.res.filter(r=>r.status==='Approved').length]];
+ return `<div class="stats">${st.map(s=>`<div class="stat ${s[2]?'acc':''}"><b>${s[1]}</b><span>${s[0]}</span></div>`).join('')}</div>
+ <div class="panel"><h2>Listing moderation</h2><p class="sub">Rejections require a reason and are written to the audit log.</p>
+ ${pend.length?`<table style="margin-top:10px"><tr><th>Pet</th><th>Seller</th><th>Detail</th><th></th></tr>${pend.map(p=>`<tr><td><b>${p.name}</b></td><td>${U(p.owner).name}</td><td class="sub">${p.breed} · ${fmt(p.price)} · ${p.loc}</td>
+ <td class="fl"><button class="btn sm" data-approve="${p.id}">${ic('check',14)}Approve</button><button class="btn sm alt" data-reject="${p.id}">${ic('x',14)}Reject</button></td></tr>`).join('')}</table>`:`<p class="sub" style="margin-top:8px">Queue clear.</p>`}</div>
+ <div class="panel"><h2>KYC queue</h2>${kyc.length?`<table style="margin-top:10px"><tr><th>User</th><th>Role</th><th>Document</th><th></th></tr>
+ ${kyc.map(u=>`<tr><td><b>${u.name}</b></td><td class="sub">${u.role}</td><td class="sub">${ic('doc',14)} Government ID · private</td>
+ <td class="fl"><button class="btn sm" data-kyc="${u.id}">Approve</button><button class="btn sm alt" data-kycr="${u.id}">Reject</button></td></tr>`).join('')}</table>`:`<p class="sub" style="margin-top:8px">No submissions awaiting review.</p>`}</div>
+ <div class="panel"><h2>Reports</h2>${S.reports.length?`<table style="margin-top:10px"><tr><th>Listing</th><th>Reason</th><th>Status</th><th></th></tr>
+ ${S.reports.map(r=>`<tr><td>${S.pets.find(p=>p.id===r.pet).name}</td><td class="sub">${r.reason}</td><td><span class="tag ${r.status==='Open'?'t-warn':'t-ok'}">${r.status}</span></td>
+ <td>${r.status==='Open'?`<button class="btn sm alt" data-unpub="${r.id}">Unpublish & resolve</button>`:''}</td></tr>`).join('')}</table>`:`<p class="sub" style="margin-top:8px">No reports filed.</p>`}</div>`;}
+
+function Logs(){return `<div class="panel"><h2>Audit log</h2><p class="sub">Immutable record of verification, moderation, reservation and report actions.</p>
+ ${S.logs.length?`<table style="margin-top:10px"><tr><th>When</th><th>Actor</th><th>Action</th><th>Entity</th></tr>
+ ${S.logs.map(l=>`<tr><td class="sub">${new Date(l.t).toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'})}</td><td>${l.actor}</td><td><b>${l.action}</b> <span class="sub">${l.detail}</span></td><td class="sub">${l.entity}</td></tr>`).join('')}</table>`:`<p class="sub" style="margin-top:8px">No events recorded yet.</p>`}</div>`;}
+
+function NewListing(){return `<div class="dlghd"><div><h2 style="font-size:20px">Create listing</h2><p class="sub">Submitted listings are reviewed before publication.</p></div><button class="x" data-close>${ic('x',16)}</button></div>
+ <div class="two"><div>
+ <div class="field"><label>Pet name</label><input id="f_name" placeholder="e.g. Mocha"></div>
+ <div class="field"><label>Species</label><select id="f_sp"><option>Dog</option><option>Cat</option><option>Rabbit</option><option>Bird</option></select></div>
+ <div class="field"><label>Breed</label><input id="f_breed" placeholder="Indie / Mixed"></div>
+ <div class="field"><label>Age (years)</label><input id="f_age" type="number" min="0" value="1"></div></div><div>
+ <div class="field"><label>Gender</label><select id="f_g"><option>Female</option><option>Male</option></select></div>
+ <div class="field"><label>Approximate location (city + PIN)</label><input id="f_loc" placeholder="Gwalior, MP 474002"></div>
+ <div class="field"><label>Price (0 = free adoption)</label><input id="f_price" type="number" min="0" value="0"></div>
+ <div class="field"><label>Vaccination</label><select id="f_vax"><option>Full</option><option>Partial</option><option>None</option></select></div></div></div>
+ <div class="field"><label>Health disclosure (owner-provided)</label><textarea id="f_health" rows="2" placeholder="Deworming, sterilisation, known conditions…"></textarea></div>
+ <div class="note">${ic('pin',16)}<span>Only the city and PIN are shown publicly. Your exact address is never published.</span></div>
+ <div class="fl" style="margin-top:14px"><button class="btn coral" id="create">Submit for review</button><button class="btn alt" data-close>Cancel</button></div>`;}
+
+document.addEventListener('input',e=>{const t=e.target;
+ if(['q','sp','price','vax','sort'].includes(t.id)){F[t.id]=t.value;const s=document.activeElement.id;render();const n=document.getElementById(s);if(n){n.focus();if(n.setSelectionRange&&n.type==='text')n.setSelectionRange(9e9,9e9)}}});
+document.getElementById('acct').onchange=e=>{S.me=e.target.value;TAB=tabsFor()[0][0];render()};
+document.getElementById('tabs').onclick=e=>{const b=e.target.closest('[data-t]');if(b){TAB=b.dataset.t;render()}};
+
+document.addEventListener('click',e=>{
+ const g=s=>e.target.closest('['+s+']')?.dataset, d=e.target.closest('[data-pet],[data-close],[data-req],[data-hold],[data-msg],[data-fav],[data-report],[data-thread],[data-send],[data-submit],[data-pause],[data-resume],[data-sold],[data-acc],[data-dec],[data-approve],[data-reject],[data-kyc],[data-kycr],[data-unpub]');
+ if(e.target.id==='new')return open(NewListing());
+ if(e.target.id==='create'){const v=i=>document.getElementById('f_'+i).value;
+  if(!v('name')||!v('breed')||!v('loc'))return toast('Name, breed and location are required.');
+  const p={id:uid('p'),name:v('name'),species:v('sp'),breed:v('breed'),age:+v('age'),gender:v('g'),loc:v('loc'),price:+v('price'),vax:v('vax'),status:'Pending Review',owner:S.me,health:v('health')||'Owner-provided; not independently verified.',about:`${v('name')} is looking for a responsible home.`};
+  S.pets.unshift(p);log('Listing submitted',p.id,p.name);close();TAB='listings';render();return toast('Submitted for moderation.')}
+ if(!d)return;const a=d.dataset;
+ if('close' in a)return close();
+ if(a.pet)return open(Detail(S.pets.find(p=>p.id===a.pet)));
+ if(a.thread)return open(Thread(a.thread));
+ if(a.send){const i=document.getElementById('mi');if(!i.value.trim())return;
+  const p=S.pets.find(x=>x.id===a.send),other=p.owner===S.me?(S.msgs.find(m=>m.pet===p.id&&m.a!==S.me)?.a||'u2'):p.owner;
+  S.msgs.push({id:uid('m'),pet:p.id,a:S.me,b:other,from:S.me,body:i.value.trim(),t:Date.now()});save();open(Thread(a.send));return}
+ if(a.msg){const p=S.pets.find(x=>x.id===a.msg);
+  if(!S.msgs.some(m=>m.pet===p.id&&(m.a===S.me||m.b===S.me)))S.msgs.push({id:uid('m'),pet:p.id,a:S.me,b:p.owner,from:p.owner,body:'Hi — happy to answer questions about '+p.name+'.',t:Date.now()});
+  return open(Thread(p.id))}
+ if(a.req){if(S.reqs.some(r=>r.pet===a.req&&r.buyer===S.me&&!['Declined','Cancelled'].includes(r.status)))return toast('You already have an active request.');
+  const p=S.pets.find(x=>x.id===a.req);S.reqs.unshift({id:uid('r'),pet:p.id,buyer:S.me,seller:p.owner,status:'Submitted',msg:'Interested — I can provide home details.',t:Date.now()});
+  log('Request submitted',p.id,p.name);close();TAB='reqs';render();return toast('Request sent to the rehomer.')}
+ if(a.hold){if(S.res.some(r=>r.pet===a.hold&&r.status==='Approved'))return toast('This pet already has an active hold.');
+  const p=S.pets.find(x=>x.id===a.hold);S.res.unshift({id:uid('h'),pet:p.id,buyer:S.me,seller:p.owner,status:'Approved',exp:Date.now()+1728e5});
+  p.status='Reserved';log('Reservation approved',p.id,'48h hold');close();render();return toast('Hold placed for 48 hours.')}
+ if(a.fav){S.favs.includes(a.fav)?S.favs.splice(S.favs.indexOf(a.fav),1):S.favs.push(a.fav);save();return open(Detail(S.pets.find(p=>p.id===a.fav)))}
+ if(a.report){const r=prompt('Reason (welfare concern, misleading info, scam, other):','Welfare concern');if(!r)return;
+  S.reports.unshift({id:uid('rp'),pet:a.report,by:S.me,reason:r,status:'Open'});log('Report filed',a.report,r);close();render();return toast('Report sent to moderation.')}
+ if(a.submit){const p=S.pets.find(x=>x.id===a.submit);p.status='Pending Review';delete p.reason;log('Listing submitted',p.id,p.name);render();return toast('Sent for review.')}
+ if(a.pause||a.resume){const p=S.pets.find(x=>x.id===(a.pause||a.resume));p.status=a.pause?'Paused':'Published';log('Listing '+p.status,p.id,p.name);return render()}
+ if(a.sold){const p=S.pets.find(x=>x.id===a.sold);p.status='Sold/Adopted';S.res.filter(r=>r.pet===p.id).forEach(r=>r.status='Completed');log('Transfer completed',p.id,p.name);render();return toast('Marked rehomed.')}
+ if(a.acc||a.dec){const r=S.reqs.find(x=>x.id===(a.acc||a.dec));r.status=a.acc?'Accepted':'Declined';log('Request '+r.status,r.id,S.pets.find(p=>p.id===r.pet).name);render();return toast('Request '+r.status.toLowerCase()+'.')}
+ if(a.approve){const p=S.pets.find(x=>x.id===a.approve);p.status='Published';log('Listing approved',p.id,p.name);render();return toast('Published.')}
+ if(a.reject){const why=prompt('Rejection reason (required):');if(!why)return toast('A reason is required.');
+  const p=S.pets.find(x=>x.id===a.reject);p.status='Rejected';p.reason=why;log('Listing rejected',p.id,why);render();return toast('Rejected with reason.')}
+ if(a.kyc||a.kycr){const u=U(a.kyc||a.kycr);u.kyc=a.kyc?'Approved':'Rejected';u.status=a.kyc?'Active':'Pending Verification';
+  log('KYC '+u.kyc,u.id,u.name);render();return toast('KYC '+u.kyc.toLowerCase()+'.')}
+ if(a.unpub){const r=S.reports.find(x=>x.id===a.unpub);r.status='Resolved';const p=S.pets.find(x=>x.id===r.pet);p.status='Paused';
+  log('Listing unpublished',p.id,'report resolved');render();return toast('Unpublished and resolved.')}
+});
+setInterval(()=>{let ch=0;S.res.filter(r=>r.status==='Approved'&&r.exp<Date.now()).forEach(r=>{r.status='Expired';const p=S.pets.find(x=>x.id===r.pet);if(p.status==='Reserved')p.status='Published';ch=1});if(ch)render()},20000);
+render();
+</script></body></html>

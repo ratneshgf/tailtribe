@@ -1,0 +1,11 @@
+{
+  "name": "tailtribe",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "dev:api": "npm run dev --workspace @tailtribe/api",
+    "dev:web": "npm run dev --workspace @tailtribe/web",
+    "seed": "npm run seed --workspace @tailtribe/api"
+  }
+}
