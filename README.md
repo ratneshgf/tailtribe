@@ -1,5 +1,7 @@
 # TailTribe — Verified Pet Marketplace & Adoption Portal
 
+**Live website:** [tailtribe-web.vercel.app](https://tailtribe-web.vercel.app)
+
 MERN implementation of the TailTribe PRD v1.0. React + Vite on the front, Express + MongoDB + Socket.IO
 behind it, with the listing / request / reservation state machines enforced server-side.
 
