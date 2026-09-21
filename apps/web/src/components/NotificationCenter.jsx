@@ -16,7 +16,8 @@ export default function NotificationCenter({ user, navigate, notify }) {
   useEffect(() => {
     let active = true;
     api.get('/notifications').then((data) => { if (active) setItems(data.items || []); }).catch(() => {});
-    const socket = io('http://localhost:4001', { auth: { token: getToken() } });
+    const socketOrigin = import.meta.env.VITE_SOCKET_URL || (import.meta.env.DEV ? 'http://localhost:4001' : window.location.origin);
+    const socket = io(socketOrigin, { auth: { token: getToken() } });
     socket.on('notification:new', (item) => {
       if (active) setItems((current) => [item, ...current.filter((entry) => String(entry.id || entry._id) !== String(item.id || item._id))].slice(0, 40));
     });
