@@ -25,8 +25,9 @@ app.use(helmet({
     'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
   } },
 }));
-const webOrigin = process.env.WEB_ORIGIN || process.env.RENDER_EXTERNAL_URL || 'http://localhost:5173';
-app.use(cors({ origin: webOrigin, credentials: true }));
+const webOrigins = (process.env.WEB_ORIGIN || process.env.RENDER_EXTERNAL_URL || 'http://localhost:5173')
+  .split(',').map((origin) => origin.trim()).filter(Boolean);
+app.use(cors({ origin: webOrigins, credentials: true }));
 app.use(express.json({ limit: '1mb' }));
 app.use(morgan('dev'));
 
@@ -46,7 +47,7 @@ app.use((err, req, res, next) => {
 });
 
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: webOrigin, credentials: true } });
+const io = new Server(server, { cors: { origin: webOrigins, credentials: true } });
 app.set('io', io);
 
 // CHAT-01: sockets are authenticated too — a room is not a public channel.

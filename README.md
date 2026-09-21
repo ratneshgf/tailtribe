@@ -116,16 +116,21 @@ Authorized JavaScript origins. Put its client ID in both `apps/api/.env` as `GOO
 `apps/web/.env` as `VITE_GOOGLE_CLIENT_ID`, then restart the API and Vite servers. The API verifies the
 Google ID token before creating or signing in the account; it never trusts the email sent by the browser.
 
-## Deploy to Render
+## Deploy the API to Render and the web app to Vercel
 
-The root `render.yaml` deploys the Vite site and Express/Socket.IO API together on one Render web service.
-In the Render dashboard, create a Blueprint from this GitHub repository and provide these environment values
-when prompted: `MONGODB_URI` for the Atlas `tailtribe` database, `ADMIN_SETUP_KEY`, both Google client ID
-fields, and the three Cloudinary values. Render generates the JWT secrets. Add the deployed `https://...onrender.com`
-origin to the Google OAuth client's Authorized JavaScript origins, then redeploy. Add the Render service's
-outbound IP access required by Atlas, or use the Atlas IP access configuration appropriate for the selected plan.
-The free Render web service can sleep when idle, so its first request after inactivity may take longer.
-For the Atlas network allowlist, use the outbound IP ranges shown for the deployed Render service and its region.
+`render.yaml` deploys the Express/Socket.IO API to Render (and also serves the built web app as a fallback).
+The root `vercel.json` deploys the Vite frontend to Vercel and proxies `/api/*` to the Render API. In Render,
+set `WEB_ORIGIN` to the Vercel production origin plus `http://localhost:5173`, separated by a comma. In Vercel,
+set Root Directory to the repository root, Install Command to `npm ci --include=dev`, Build Command to
+`npm run build --workspace @tailtribe/web`, Output Directory to `apps/web/dist`, and `VITE_SOCKET_URL` to the
+Render API origin. Vercel serves frontend requests, while API calls use its external rewrite and Socket.IO
+connects directly to Render.
+
+For the Render Blueprint, provide `MONGODB_URI` for the Atlas `tailtribe` database, `ADMIN_SETUP_KEY`, both
+Google client ID fields, and the three Cloudinary values. Render generates the JWT secrets. Add both the Vercel
+production origin and localhost to the Google OAuth client's Authorized JavaScript origins. Add the Render
+service's outbound IP ranges to the Atlas network access list. The free Render web service can sleep when idle,
+so API requests after inactivity may take longer.
 
 Forgot-password email needs SMTP settings (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_FROM`);
 these are optional for deployment and can be added to Render later. Render's free web services block outbound
